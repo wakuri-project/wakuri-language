@@ -1,0 +1,72 @@
+// ============================================================
+// 日本語ネイティブ言語 v0.1 正式文法
+// 「終わり」を文法上のブロック終端とし、インデントには文法上の意味を持たせない
+// ============================================================
+
+start: (_NEWLINE | stmt)*
+
+?stmt: assign_stmt
+     | print_stmt
+     | declare_stmt
+     | if_stmt
+
+// やさしい代入: 年齢 を 55 と する
+// 「を」が対象(年齢)を、「と」が値(55)を示す、2つの補語を持つ文。
+// プロデルの「実補語(式+助詞の組)」と同じ考え方。
+assign_stmt: NAME "を" expr "と" "する" _NEWLINE
+
+// 表示: 式 を 表示する (SOV型)
+print_stmt: expr "を" "表示する" _NEWLINE
+
+// 学習構文: 変数 名前 = 式 (新規宣言。二重宣言は意味チェック層がエラーにする)
+declare_stmt: "変数" NAME "=" expr _NEWLINE
+
+// 条件分岐: 「終わり」を必須のブロック終端とする
+if_stmt: "もし" condition "なら" _NEWLINE stmt* else_block? "終わり" _NEWLINE
+else_block: "そうでなければ" _NEWLINE stmt*
+
+// 条件式: 記号形式と日本語形式を対等にサポートする
+condition: expr COMPARE_OP expr   -> cmp_symbol
+         | expr "が" expr JP_GE   -> cmp_ge
+         | expr "が" expr JP_LE   -> cmp_le
+         | expr "が" expr JP_GT   -> cmp_gt
+         | expr "が" expr JP_LT   -> cmp_lt
+         | expr "が" expr JP_EQ   -> cmp_eq
+         | expr "が" expr JP_NE   -> cmp_ne
+
+COMPARE_OP: ">=" | "<=" | "==" | "!=" | ">" | "<"
+
+JP_GE.2: "以上"
+JP_LE.2: "以下"
+JP_GT.2: "より大きい"
+JP_LT.2: "未満" | "より小さい"
+JP_EQ.2: "と等しい" | "等しい"
+JP_NE.2: "と等しくない" | "等しくない"
+
+// 式: 四則演算を含む
+?expr: expr "+" term -> add
+     | expr "-" term -> sub
+     | term
+
+?term: term "*" factor -> mul
+     | term "/" factor -> div
+     | factor
+
+?factor: NAME     -> var
+       | NUMBER   -> number
+       | STRING   -> string
+       | "-" factor -> neg
+       | "(" expr ")"
+
+// コメント
+COMMENT: /#[^\n]*/
+%ignore COMMENT
+
+NAME: /[^\W\d][\w]*/
+STRING: /"[^"]*"/
+
+%import common.NUMBER
+%import common.WS_INLINE
+%ignore WS_INLINE
+
+_NEWLINE: (/\r?\n[\t ]*/)+
