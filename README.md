@@ -1,4 +1,4 @@
-# Wakuri Language v0.1
+# Wakuri Language v0.1.1
 
 **日本語からプログラミングへ、橋をかける。**
 
@@ -28,6 +28,10 @@ python3 main.py examples/example1.nj
 ```
 まだまだいける
 ```
+
+> Windowsで初めてWakuriを動かす方は、下の
+> **「Windows初心者向け：Wakuriを動かしてみる」**
+> を先に読むのがおすすめです。
 
 ---
 
@@ -72,6 +76,190 @@ python3 main.py examples/hello.nj
 ```bash
 python3 main.py examples/hello.nj --show-python
 ```
+
+---
+
+## Windows初心者向け：Wakuriを動かしてみる
+
+ここでは、GitHubからダウンロードしたWakuri Languageを、
+Windowsで最初に動かすところまで順番に説明します。
+
+最初は、Wakuriに付属しているサンプルを動かします。
+サンプルが動いたことを確認してから、自分の `.nj` ファイルを作ってみましょう。
+
+### 1. Wakuri Languageをダウンロードする
+
+GitHubのWakuri Languageリポジトリを開き、
+緑色の **Code** ボタンから **Download ZIP** を選びます。
+
+ダウンロードしたZIPファイルを右クリックし、
+**「すべて展開」** を選んで展開してください。
+
+展開すると、Wakuri Languageのファイルが入ったフォルダができます。
+
+### 2. Pythonが使えるか確認する
+
+Wakuri Languageを動かすには **Python 3.10以降** が必要です。
+
+Windows Terminal またはコマンドプロンプトを開き、次を入力します。
+
+```text
+py --version
+```
+
+たとえば次のようにPythonのバージョンが表示されれば準備OKです。
+
+```text
+Python 3.12.x
+```
+
+`py` が見つからない場合は、次も試してください。
+
+```text
+python --version
+```
+
+どちらも使えない場合は、Pythonがまだインストールされていないか、
+WindowsからPythonを見つけられない状態の可能性があります。
+
+### 3. Wakuriのフォルダでコマンドプロンプトを開く
+
+展開したWakuri Languageのフォルダをエクスプローラーで開きます。
+
+エクスプローラー上部のアドレス欄をクリックして、
+
+```text
+cmd
+```
+
+と入力し、Enterキーを押してください。
+
+そのWakuriフォルダを開いた状態でコマンドプロンプトが起動します。
+
+### 4. 必要なライブラリを入れる
+
+コマンドプロンプトで次を入力します。
+
+```text
+py -m pip install -r requirements.txt
+```
+
+`py` ではなく `python` を使っている環境では、こちらを使います。
+
+```text
+python -m pip install -r requirements.txt
+```
+
+インストールが終わるまで待ってください。
+
+### 5. まず付属のサンプルを動かす
+
+次を入力します。
+
+```text
+py main.py examples/hello.nj
+```
+
+`py` ではなく `python` を使っている場合:
+
+```text
+python main.py examples/hello.nj
+```
+
+画面に次のように表示されたら、Wakuri Languageは正常に動いています。
+
+```text
+こんにちは
+```
+
+### 6. 自分のWakuriプログラムを作る
+
+次は、自分で `.nj` ファイルを1つ作ってみます。
+
+メモ帳などのテキストエディタを開き、次の1行を書いてください。
+
+```text
+"こんにちは、Wakuri！" を 表示する
+```
+
+ファイル名を次のようにして、Wakuri Languageのフォルダに保存します。
+
+```text
+my_first.nj
+```
+
+Windowsのメモ帳で保存する場合は、
+**「ファイルの種類」を「すべてのファイル」** にして保存すると、
+`my_first.nj.txt` になってしまうのを防ぎやすくなります。
+
+文字コードを選べる場合は **UTF-8** を選んでください。
+
+### 7. 自分のプログラムを実行する
+
+コマンドプロンプトで次を入力します。
+
+```text
+py main.py my_first.nj
+```
+
+`python` を使っている環境では:
+
+```text
+python main.py my_first.nj
+```
+
+次のように表示されたら成功です。
+
+```text
+こんにちは、Wakuri！
+```
+
+おめでとうございます。
+最初のWakuriプログラムが動きました 🌰
+
+### 8. うまく動かないとき
+
+#### `py` が見つからない
+
+次を試してください。
+
+```text
+python --version
+```
+
+`python` なら動く場合は、このガイドにある `py` を `python` に読み替えてください。
+
+#### `No module named 'lark'` と表示される
+
+必要なライブラリがまだ入っていない可能性があります。
+
+```text
+py -m pip install -r requirements.txt
+```
+
+または:
+
+```text
+python -m pip install -r requirements.txt
+```
+
+をもう一度実行してください。
+
+#### `my_first.nj` が見つからない
+
+`my_first.nj` が `main.py` と同じWakuri Languageのフォルダにあるか確認してください。
+
+#### `my_first.nj.txt` になってしまった
+
+Windowsでファイルの拡張子が非表示になっている可能性があります。
+
+エクスプローラーで **「表示」→「ファイル名拡張子」** を有効にして、
+ファイル名を確認してください。
+
+#### それでも動かない
+
+エラーメッセージをそのままコピーして確認すると、
+原因を切り分けやすくなります。
 
 ---
 
@@ -283,3 +471,4 @@ Apache License 2.0 で公開しています。詳細は `LICENSE` を参照し�
 ## Contributing
 
 正式なコントリビューションガイドラインは準備中です。Issueでのバグ報告・提案を歓迎します。
+
